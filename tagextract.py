@@ -5,16 +5,20 @@ import sys
 import re
 from pdfminer.high_level import extract_pages
 
+page_num = 0
+final_dict = {}
+#string_to_find = "XTAGNAMEX"
+
 def show_ltitem_hierarchy(o: Any, depth=0):
     if o.__class__.__name__ == "LTPage":
         page_num =+ 1
     full_list = [int(i) for i in get_optional_bbox(o).split(" ") if len(i)>0]
     #try:
     com_dict = {"PageNum": page_num, "Coordinates": full_list[:]}
-    my_dict.update({get_optional_text(o): com_dict})
+    final_dict.update({get_optional_text(o): com_dict})
     #except UnboundLocalError:
     #    pass
-    #my_dict.update({get_optional_text(o): full_list[:]})
+    #final_dict.update({get_optional_text(o): full_list[:]})
 
     if isinstance(o, Iterable):
         for i in o:
@@ -43,13 +47,13 @@ def main():
     pages = extract_pages(path)
     com_dict = {}
     show_ltitem_hierarchy(pages)
-    select_dict = {k:v for k, v in my_dict.items() if re.match('XT-(.*)', k)}
-    print(select_dict)
-    #print(json.dumps(select_dict))
-    #print(json.dumps(my_dict))
-page_num = 0
-my_dict = {}
-#string_to_find = "Reason"
-#string_to_find = "XTAGNAMEX" #TODO
+    simple_dict = {k:v for k, v in final_dict.items() if re.match('XT-(.*)', k)}
+    print(simple_dict)
+    #print(json.dumps(simple_dict))
+    #print(json.dumps(final_dict))
+
+#page_num = 0
+#final_dict = {}
+#string_to_find = "XTAGNAMEX"
 if __name__ == "__main__":
     main()
