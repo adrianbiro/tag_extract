@@ -2,3 +2,4 @@ venv
 *.swp
 *.pdf
 !standardpdf.pdf
+!pokus10.pdf

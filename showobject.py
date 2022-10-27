@@ -44,7 +44,8 @@ def get_optional_text(o: Any) -> str:
     return ''
 
 
-path = Path('~/gits/pdfPY/market-old.pdf').expanduser()
+path = Path('~/gits/pdfPY/pokus10.pdf').expanduser()
+#path = Path('~/gits/pdfPY/market-old.pdf').expanduser()
 #path = Path('~/gits/pdfPY/simple1.pdf').expanduser()
 
 pages = extract_pages(path)

@@ -2,12 +2,19 @@ from pathlib import Path
 from typing import Iterable, Any
 import json
 import sys
+import re
 from pdfminer.high_level import extract_pages
 
 def show_ltitem_hierarchy(o: Any, depth=0):
+    if o.__class__.__name__ == "LTPage":
+        page_num =+ 1
     full_list = [int(i) for i in get_optional_bbox(o).split(" ") if len(i)>0]
-    #TODO or FIXME swap dict or make list of dict with counter "k" then dump all json to jq
-    my_dict.update({get_optional_text(o): full_list[:2]})
+    #try:
+    com_dict = {"PageNum": page_num, "Coordinates": full_list[:]}
+    my_dict.update({get_optional_text(o): com_dict})
+    #except UnboundLocalError:
+    #    pass
+    #my_dict.update({get_optional_text(o): full_list[:]})
 
     if isinstance(o, Iterable):
         for i in o:
@@ -34,13 +41,15 @@ def main():
         exit(2)
 
     pages = extract_pages(path)
+    com_dict = {}
     show_ltitem_hierarchy(pages)
-    select_dict = {k:v for k, v in my_dict.items() if string_to_find in k}
-    print(json.dumps(select_dict))
+    select_dict = {k:v for k, v in my_dict.items() if re.match('XT-(.*)', k)}
+    print(select_dict)
+    #print(json.dumps(select_dict))
     #print(json.dumps(my_dict))
-
+page_num = 0
 my_dict = {}
-string_to_find = "Reason"
+#string_to_find = "Reason"
 #string_to_find = "XTAGNAMEX" #TODO
 if __name__ == "__main__":
     main()
