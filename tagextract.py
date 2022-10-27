@@ -6,6 +6,7 @@ from pdfminer.high_level import extract_pages
 
 def show_ltitem_hierarchy(o: Any, depth=0):
     full_list = [int(i) for i in get_optional_bbox(o).split(" ") if len(i)>0]
+    #TODO or FIXME swap dict or make list of dict with counter "k" then dump all json to jq
     my_dict.update({get_optional_text(o): full_list[:2]})
 
     if isinstance(o, Iterable):
@@ -40,6 +41,6 @@ def main():
 
 my_dict = {}
 string_to_find = "Reason"
-#string_to_find = "XTAGNAMEX"
+#string_to_find = "XTAGNAMEX" #TODO
 if __name__ == "__main__":
     main()
