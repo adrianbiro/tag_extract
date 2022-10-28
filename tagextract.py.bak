@@ -7,25 +7,18 @@ from pdfminer.high_level import extract_pages
 
 page_num = 0
 final_dict = {}
-
-class Record:
-    def __init__(self, clist, tname):
-        """list of coor, text"""
-        coordinates = self.clist
-        pnum = page_num
-        name = self.tname
-
+#string_to_find = "XTAGNAMEX"
 
 def show_ltitem_hierarchy(o: Any, depth=0):
-    page_num = 1
     if o.__class__.__name__ == "LTPage":
         page_num =+ 1
-        print(page_num)
     full_list = [int(i) for i in get_optional_bbox(o).split(" ") if len(i)>0]
-    final_dict.update({
-        get_optional_text(o): 
-        {"tags" : full_list[:], "Pagenum": page_num }
-        })
+    #try:
+    com_dict = {"PageNum": page_num, "Coordinates": full_list[:]}
+    final_dict.update({get_optional_text(o): com_dict})
+    #except UnboundLocalError:
+    #    pass
+    #final_dict.update({get_optional_text(o): full_list[:]})
 
     if isinstance(o, Iterable):
         for i in o:
