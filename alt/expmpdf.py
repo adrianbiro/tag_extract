@@ -1,28 +1,25 @@
 import sys
 from pathlib import Path
 import json
-
 import fitz
+#import pyjq  #TODO nechce ho nainštalovať
 
 def openfile(path_to_pdf_file):
     with fitz.open(path_to_pdf_file) as document:
-        words_dict = {}
-        for page_number, page in enumerate(document):
-            words = page.get_text("XT-(.*)")
-            words_dict[page_number] = words
-    print(json.dumps(words_dict))
-        #for page in document:
-        #    wlist = page.get_text_words()
-        #    #wlist = page.get_text() # da text
-        #    #wlist = TextPage.extractDICT() # da text
-        #    print(wlist)
+        for page in document:
+            wlist = page.get_text("json")
+            #selected_jason = pyqj.first('.blocks[].lines[].spans[] | select(.text |test("XT-(.*)"))', wlist)
+            #print(selected_jason)
+            print(wlist)
 
 
 def main():
     if len(sys.argv) > 1:
         openfile(Path(sys.argv[1]))
     else:
-        print(f"Usage:\v python3 {sys.argv[0]} <file.pdf>")
+        print(f"Usage:\v python3 {sys.argv[0]} <file.pdf> | jq '.blocks[].lines[].spans[] | select(.text |test(\"XT-(.*)\"))'")
         exit(2)
 
 main()
+
+# jq '.blocks[].lines[].spans[] | select(.text |test("XT-(.*)"))' full.json
