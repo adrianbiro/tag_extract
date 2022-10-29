@@ -20,10 +20,10 @@ def show_ltitem_hierarchy(o: Any, depth=0):
     page_num = 1
     if o.__class__.__name__ == "LTPage":
         page_num =+ 1
-        print(page_num)
+        #print(page_num)
     full_list = [int(i) for i in get_optional_bbox(o).split(" ") if len(i)>0]
     final_dict.update({
-        get_optional_text(o): 
+        get_optional_text(o):
         {"tags" : full_list[:], "Pagenum": page_num }
         })
 

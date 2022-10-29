@@ -1,7 +1,1 @@
-cffi==1.15.1
-charset-normalizer==3.0.0
-cryptography==38.0.1
-pdfminer==20191125
-pdfminer.six==20220524
-pycparser==2.21
-pycryptodome==3.15.0
+PyMuPDF==1.20.2
