@@ -5,12 +5,12 @@
 
 [docker](https://hub.docker.com/r/biroadrian/extract)
 ```bash
-$ docker pull biroadrian/extract:0.3
-$ docker run --rm -v $(pwd):/fall -w /fall biroadrian/extract:0.3 <file.pdf>
+$ docker pull biroadrian/extract:0.4
+$ docker run --rm -v $(pwd):/fall -w /fall biroadrian/extract:0.4 <file.pdf>
 ```
 powershell
 ```pwsh
-PS C:\> docker run --rm -v ${pwd}:/fall -w /fall biroadrian/extract:0.3 t1.pdf
+PS C:\> docker run --rm -v ${pwd}:/fall -w /fall biroadrian/extract:0.4 t1.pdf
 ```
 ```bash
 $ python3 -m venv venv
