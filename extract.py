@@ -5,28 +5,31 @@ import fitz
 import re
 
 def openfile(path_to_pdf_file):
-    regex = "X_(.*)"
+    regex = r'X_(.*)'
     with fitz.open(path_to_pdf_file) as document:
         out = []
         for pnum, page in enumerate(document):
             final_list = []
-            #wlist = page.get_text("json")
-            full_dict = page.get_text("dict")
+            full_dict = page.get_text("rawdict")
 
             for b in full_dict["blocks"]:
                 if "lines" in b:
                     for l in b["lines"]:
                         for s in l["spans"]:
-                            if re.match(regex, s["text"]):
-                                text = {"text": s["text"]}
-                                coor = {
-                                    "x":s["origin"][0],
-                                    "y":s["origin"][1]}
-
+                            text = ""
+                            origin = []
+                            for char in s["chars"]:
+                                if not origin:
+                                    if re.match(r'\s', char["c"]):
+                                        continue
+                                    else:
+                                        origin = char["origin"]
+                                text += char["c"]
+                            if re.match(regex, text.strip()):
                                 final_list.append({
-                                    "tag": s["text"],
-                                    "x": s["origin"][0],
-                                    "y": s["origin"][1]
+                                    "tag": text.strip(),
+                                    "x": origin[0],
+                                    "y": origin[1]
                                 })
             page_num = {"page_num": pnum}
             width = {"width": full_dict["width"]}
@@ -38,7 +41,6 @@ def openfile(path_to_pdf_file):
                 "tags": final_list
             }
             out.append(pg)
-
     return json.dumps(out)
 
 def main():
